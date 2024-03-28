@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const User=require('./models/user');
 const fs=require('fs');
 const Movie = require('./models/movie.js');
+const Actor=require('./models/actor.js')
 const { requireRole } = require('./middleware/verifyrole.js');
 const { verifyToken }= require('./middleware/verifytoken.js')
 const PORT = process.env.PORT || 8080;
@@ -130,6 +131,54 @@ const startServer = async () => {
       }
     });
 
+
+  app.get("/api/movies/download",[verifyToken,requireRole('director')],async (req,res)=>{
+       try{
+          const movies=await Movie.find();
+          if(!movies || movies.length==0){
+            res.status(404).send("no movies found");
+            return;
+          }
+
+          const data={
+            movies:movies.map(m=>m.toJSON()),
+          }
+
+          const filename='movies.json';
+          fs.writeFileSync(filename, JSON.stringify(data, null, 2));
+          console.log(`Movies and actors data saved to ${filename}`);
+          res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+          const file = fs.createReadStream(filename);
+          file.pipe(res);
+       }catch(err){
+        console.error("error in fetching and downloading movies")
+       }
+  })
+
+
+
+  app.get("/api/actors/download",[verifyToken],async (req,res)=>{
+    try{
+       const actors=await Actor.find();
+       if(!actors || actors.length==0){
+         res.status(404).send("no actor data found");
+         return;
+       }
+
+       const data={
+         actors:actors.map(m=>m.toJSON()),
+       }
+
+       const filename='actor.json';
+       fs.writeFileSync(filename, JSON.stringify(data, null, 2));
+       console.log(` actors data saved to ${filename}`);
+       res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+       const file = fs.createReadStream(filename);
+       file.pipe(res);
+    }catch(err){
+     console.error("error in fetching and downloading actor")
+    }
+})
 
   
   
