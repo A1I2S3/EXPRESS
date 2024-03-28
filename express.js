@@ -6,7 +6,8 @@ const jwt = require('jsonwebtoken');
 const User=require('./models/user');
 const fs=require('fs');
 const Movie = require('./models/movie.js');
-const { requireRole } = require('./middleware/auth');
+const { requireRole } = require('./middleware/verifyrole.js');
+const { verifyToken }= require('./middleware/verifytoken.js')
 const PORT = process.env.PORT || 8080;
 const JWT_SECRET = "aishwarya@reddy"; 
 const expiresIn='1h';
@@ -20,24 +21,6 @@ const startServer = async () => {
     const app = express();
 
     app.use(bodyParser.json());
-
-    // Middleware to verify JWT token
-    const verifyToken = (req, res, next) => {
-      const token = req.headers.authorization && req.headers.authorization.split(" ")[1];;
-      if (!token) {
-        return res.status(401).json({ error: 'Unauthorized: Token is missing' });
-      }
-      jwt.verify(token, JWT_SECRET, (err,decoded) => {
-        if (err) {
-          console.log(err);
-          return res.status(401).json({ error: 'Unauthorized: Invalid token' });
-        }
-        req.userId = decoded.userId;
-        req.userRole = decoded.role;
-        next();
-      });
-    };
-
 // Create user endpoint
   app.post('/api/users/create', async (req, res) => {
       try {
