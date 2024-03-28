@@ -9,7 +9,7 @@ const Movie = require('./models/movie.js');
 const { requireRole } = require('./middleware/auth');
 const PORT = process.env.PORT || 8080;
 const JWT_SECRET = "aishwarya@reddy"; 
-
+const expiresIn='1h';
 const multer=require('multer');
 
 const startServer = async () => {
@@ -80,7 +80,7 @@ const startServer = async () => {
         return res.status(401).json({ error: 'Invalid password' });
       }
       // Generate JWT token
-      const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET);
+      const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET,{expiresIn});
       res.json({ token });
     } catch (error) {
       console.error(error);
@@ -131,7 +131,15 @@ const startServer = async () => {
         const moviesData = JSON.parse(data);
         const newmovies = moviesData.movies;
         //console.log(newmovies);
-        await Movie.insertMany(newmovies);
+        const existingTitles = await Movie.distinct("title");
+
+        // Filter out new movies whose titles already exist in the database
+        const moviesToAdd = newmovies.filter(movie => !existingTitles.includes(movie.title));
+
+        if (moviesToAdd.length === 0) {
+          return res.status(409).json({message: 'All movies already exist in the database.'});
+        }
+        await Movie.insertMany(moviesToAdd);
         res.status(200).json({ message: 'Movies added successfully' });
       } catch (err) {
         console.error(err);
