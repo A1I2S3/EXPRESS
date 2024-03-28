@@ -2,16 +2,16 @@ const mongoose=require('mongoose');
 const Schema=mongoose.Schema;
 
 const actorSchema=new Schema({
-    title:{
+    name:{
         type:String,
         required:true
     },
-    year:{
+    age:{
         type:Number,
         required:true
     },
-    rating:{
-        type:Number,
+    gender:{
+        type:String,
         required:true
     }
 },{timestamps:true});
