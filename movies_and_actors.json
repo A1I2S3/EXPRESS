@@ -1,0 +1,53 @@
+{
+  "movies": [
+    {
+      "actors": [],
+      "_id": "6603ea2cc90a2234a1262123",
+      "title": "Example Movie",
+      "year": 2024,
+      "director": "John Doe"
+    },
+    {
+      "actors": [],
+      "_id": "6603ea2cc90a2234a1262124",
+      "title": "docter strange",
+      "year": 2024,
+      "director": "krishna"
+    },
+    {
+      "actors": [],
+      "_id": "6603ea7fdb6d9f507446ad49",
+      "createdAt": "2024-03-27T09:44:31.350Z",
+      "updatedAt": "2024-03-27T09:44:31.350Z",
+      "__v": 0
+    },
+    {
+      "actors": [],
+      "_id": "6603eb13f206af1cbfdeeeba",
+      "createdAt": "2024-03-27T09:46:59.494Z",
+      "updatedAt": "2024-03-27T09:46:59.494Z",
+      "__v": 0
+    },
+    {
+      "actors": [],
+      "_id": "6603eb8213bab5b168078836",
+      "createdAt": "2024-03-27T09:48:50.528Z",
+      "updatedAt": "2024-03-27T09:48:50.528Z",
+      "__v": 0
+    }
+  ],
+  "actors": [
+    {
+      "_id": "6603ea2cc90a2234a1262123",
+      "title": "Example Movie",
+      "year": 2024,
+      "actor": "John Doe"
+    },
+    {
+      "_id": "6603ea2cc90a2234a1262124",
+      "title": "docter strange",
+      "year": 2024,
+      "actor": "krishna"
+    }
+  ]
+}

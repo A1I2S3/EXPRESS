@@ -1,0 +1,14 @@
+[
+  {
+    "_id": "6603ea2cc90a2234a1262123",
+    "title": "Example Movie",
+    "year": 2024,
+    "actor": "John Doe"
+  },
+  {
+    "_id": "6603ea2cc90a2234a1262124",
+    "title": "docter strange",
+    "year": 2024,
+    "actor": "krishna"
+  }
+]
