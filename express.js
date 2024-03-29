@@ -179,7 +179,6 @@ const startServer = async () => {
     });
 
 
-
   app.get("/api/movies/download",[verifyToken,requireRole('director')],async (req,res)=>{
        try{
           const movies=await Movie.find();
@@ -192,7 +191,7 @@ const startServer = async () => {
             movies:movies.map(m=>m.toJSON()),
           }
 
-          const filename='movies.json';
+          const filename='./downloads/movies.json';
           fs.writeFileSync(filename, JSON.stringify(data, null, 2));
           console.log(`Movies and actors data saved to ${filename}`);
           res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
@@ -217,7 +216,7 @@ const startServer = async () => {
          actors:actors.map(m=>m.toJSON()),
        }
 
-       const filename='actor.json';
+       const filename='./downloads/actor.json';
        fs.writeFileSync(filename, JSON.stringify(data, null, 2));
        console.log(` actors data saved to ${filename}`);
        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
