@@ -43,7 +43,7 @@ const startServer = async () => {
           role
         });
         await user.save();
-    
+        console.log("user is created as an",role);
         res.json({ message: 'User created successfully' });
       } catch (error) {
         console.error(error);
