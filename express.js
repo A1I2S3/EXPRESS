@@ -105,31 +105,36 @@ const startServer = async () => {
       const allmovies=await Movie.find({},{_id:0,__v:0,createdAt:0,updatedAt:0});
       res.json(allmovies);
     });
-    app.use(bodyParser.raw({ type: 'application/octet-stream', limit: '50mb' }));
-    app.post("/api/movies/upload", [verifyToken,requireRole("director"),upload.any()], async (req, res) => {
-      try {
-        console.log(req.headers['content-type']);
 
-        //console.log(req.body);
-        const jsonFile = req.body;
-        if (!jsonFile ) {
+    //app.use(bodyParser.raw({ type: 'multipart/form-data', limit: '50mb' }));
+
+    app.post("/api/movies/upload", [verifyToken,requireRole("director"),upload.single('file')], async (req, res) => {
+      try {
+        //console.log(req.headers['content-type']);
+    
+        const jsonFile = req.file;
+        //console.log(jsonFile.buffer);
+        if (!jsonFile) {
           return res.status(400).json({ message: 'Please upload a JSON file' });
         }
-        //console.log(jsonFile.path);
-        //const data = await fs.promises.readFile(jsonFile.path, 'utf8');
-        const data=req.body.toString('utf8')
-        console.log(data);
+    
+        // if (jsonFile.mimetype !== 'application/json') {
+        //   return res.status(400).json({ message: 'Please upload a valid JSON file' });
+        // }
+    
+        const data = jsonFile.buffer.toString('utf8');
+        //console.log(data);
         const moviesData = JSON.parse(data);
         const newmovies = moviesData.movies;
-        //console.log(newmovies);
+    
         const existingTitles = await Movie.distinct("title");
-
-        // Filter out new movies whose titles already exist in the database
+    
         const moviesToAdd = newmovies.filter(movie => !existingTitles.includes(movie.title));
-
+    
         if (moviesToAdd.length === 0) {
           return res.status(409).json({message: 'All movies already exist in the database.'});
         }
+    
         await Movie.insertMany(moviesToAdd);
         res.status(200).json({ message: 'Movies added successfully' });
       } catch (err) {
@@ -138,20 +143,20 @@ const startServer = async () => {
       }
     });
 
-    app.post("/api/actors/upload", [verifyToken,requireRole(),upload.single('file')], async (req, res) => {
+    app.post("/api/actors/upload", [verifyToken,requireRole('director'),upload.single('file')], async (req, res) => {
       try {
         const jsonFile = req.file;
-        if (!jsonFile || jsonFile.mimetype !== 'application/json') {
+        if (!jsonFile) {
           return res.status(400).json({ message: 'Please upload a JSON file' });
         }
-        const data = await fs.promises.readFile(jsonFile.path, 'utf8');
+        const data=jsonFile.buffer.toString('utf8')
         const actorsData = JSON.parse(data);
         const newactors = actorsData.actors;
         //console.log(newmovies);
-        const existingTitles = await Actor.distinct("title");
+        const existingName = await Actor.distinct("name");
 
         // Filter out new movies whose titles already exist in the database
-        const actorsToAdd = newactors.filter(actor => !existingTitles.includes(actor.title));
+        const actorsToAdd = newactors.filter(actor => !existingName.includes(actor.name));
 
         if (actorsToAdd.length === 0) {
           return res.status(409).json({message: 'All actors already exist in the database.'});
