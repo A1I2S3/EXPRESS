@@ -14,7 +14,7 @@ const JWT_SECRET = "aishwarya@reddy";
 const expiresIn='1h';
 const multer=require('multer');
 const path=require('path');
-
+//hi
 
 const { graphqlHTTP } = require("express-graphql");
 const { ApolloServer, gql } = require('apollo-server-express');
@@ -240,9 +240,6 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: ({ req }) => {
-    
-    
-    
     return req}})
   
   await server.start()
