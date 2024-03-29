@@ -186,7 +186,8 @@ const startServer = async () => {
     };
 
 
-  app.get("/api/movies/download",[verifyToken,requireRole('director')],async (req,res)=>{
+  
+    app.get("/api/movies/download",[verifyToken,requireRole('director')],async (req,res)=>{
     createDownloadsDirectory();
        try{
           const movies=await Movie.find();
