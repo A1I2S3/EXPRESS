@@ -138,6 +138,33 @@ const startServer = async () => {
       }
     });
 
+    app.post("/api/actors/upload", [verifyToken,requireRole(),upload.single('file')], async (req, res) => {
+      try {
+        const jsonFile = req.file;
+        if (!jsonFile || jsonFile.mimetype !== 'application/json') {
+          return res.status(400).json({ message: 'Please upload a JSON file' });
+        }
+        const data = await fs.promises.readFile(jsonFile.path, 'utf8');
+        const actorsData = JSON.parse(data);
+        const newactors = actorsData.actors;
+        //console.log(newmovies);
+        const existingTitles = await Actor.distinct("title");
+
+        // Filter out new movies whose titles already exist in the database
+        const actorsToAdd = newactors.filter(actor => !existingTitles.includes(actor.title));
+
+        if (actorsToAdd.length === 0) {
+          return res.status(409).json({message: 'All actors already exist in the database.'});
+        }
+        await Actor.insertMany(actorsToAdd);
+        res.status(200).json({ message: 'Actors added successfully' });
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Internal server error' });
+      }
+    });
+
+
 
   app.get("/api/movies/download",[verifyToken,requireRole('director')],async (req,res)=>{
        try{
