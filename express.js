@@ -9,8 +9,14 @@ const Movie = require('./models/movie.js');
 const { requireRole } = require('./middleware/auth');
 const PORT = process.env.PORT || 8080;
 const JWT_SECRET = "aishwarya@reddy"; 
-
 const multer=require('multer');
+
+
+const { graphqlHTTP } = require("express-graphql");
+const { ApolloServer, gql } = require('apollo-server-express');
+const typeDefs = require("./schemas/schema.js");
+const resolvers = require("./schemas/resolver.js");
+
 
 const startServer = async () => {
   try {
@@ -23,24 +29,30 @@ const startServer = async () => {
 
     // Middleware to verify JWT token
     const verifyToken = (req, res, next) => {
-      const token = req.headers.authorization && req.headers.authorization.split(" ")[1];;
+
+      const token =req.headers.authorization.split(" ")[1] ||  req.headers.authorization ;
+    
       if (!token) {
         return res.status(401).json({ error: 'Unauthorized: Token is missing' });
       }
+      
       jwt.verify(token, JWT_SECRET, (err,decoded) => {
         if (err) {
+          // console.log("error here")
           console.log(err);
-          return res.status(401).json({ error: 'Unauthorized: Invalid token' });
+          return res.status(401).json({ error: 'Unauthorized: Invalid token is entered' });
         }
         req.userId = decoded.userId;
         req.userRole = decoded.role;
-        next();
+        next()
+        
       });
     };
 
 // Create user endpoint
   app.post('/api/users/create', async (req, res) => {
       try {
+        console.log("hello")
         const { username, password, role } = req.body;
     
         // Check if user already exists
@@ -81,7 +93,7 @@ const startServer = async () => {
       }
       // Generate JWT token
       const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET);
-      res.json({ token });
+      res.send( token );
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal server error' });
@@ -104,6 +116,7 @@ const startServer = async () => {
   app.put('/api/users/:userId/update', verifyToken, async (req, res) => {
     try {
       const { userId } = req.params;
+      
       const { username, password, role } = req.body;
       const hashedPassword = await bcrypt.hash(password, 10); // Using 10 salt rounds
       await User.findByIdAndUpdate(userId, { username, password: hashedPassword, role });
@@ -139,13 +152,31 @@ const startServer = async () => {
       }
     });
 
+    const server = new ApolloServer({
+      typeDefs,
+      resolvers,
+      context: ({ req }) => {
+        
+        
+        
+        return req
+      }
+    });
+
+
 
   
+  await server.start()
+   
+  server.applyMiddleware({ app });
+   
+ 
   
-app.listen(PORT, () => {
+  
+
+ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-
     
   } catch (err) {
     console.log('Error connecting to mongodb', err);
