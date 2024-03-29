@@ -1,7 +1,7 @@
 const User = require("../models/user.js");
 const Movie = require("../models/movie.js");
 const jwt = require('jsonwebtoken');
-const {requireRole}=require("../middleware/auth.js")
+const {requireRole}=require("../middleware/verifyrole")
 const axios = require('axios');
 const bcrypt = require('bcryptjs');
 

@@ -29,29 +29,6 @@ const startServer = async () => {
     const app = express();
 
     app.use(bodyParser.json());
-
-    // Middleware to verify JWT token
-    const verifyToken = (req, res, next) => {
-
-      const token =req.headers.authorization.split(" ")[1] ||  req.headers.authorization ;
-    
-      if (!token) {
-        return res.status(401).json({ error: 'Unauthorized: Token is missing' });
-      }
-      
-      jwt.verify(token, JWT_SECRET, (err,decoded) => {
-        if (err) {
-          // console.log("error here")
-          console.log(err);
-          return res.status(401).json({ error: 'Unauthorized: Invalid token is entered' });
-        }
-        req.userId = decoded.userId;
-        req.userRole = decoded.role;
-        next()
-        
-      });
-    };
-
 // Create user endpoint
   app.post('/api/users/create', async (req, res) => {
       try {
@@ -174,10 +151,10 @@ const startServer = async () => {
         const actorsData = JSON.parse(data);
         const newactors = actorsData.actors;
         //console.log(newmovies);
-        const existingTitles = await Actor.distinct("title");
+        const existingTitles = await Actor.distinct("name");
 
         // Filter out new movies whose titles already exist in the database
-        const actorsToAdd = newactors.filter(actor => !existingTitles.includes(actor.title));
+        const actorsToAdd = newactors.filter(actor => !existingTitles.includes(actor.name));
 
         if (actorsToAdd.length === 0) {
           return res.status(409).json({message: 'All actors already exist in the database.'});
