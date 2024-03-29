@@ -2,7 +2,7 @@
 
 const requireRole = (role) => {
     return (req, res, next) => {
-        if (req.userRole !== role) {
+        if (!role.includes(req.userRole)) {
             return res.status(403).json({ message: 'Forbidden: Insufficient permissions' });
         }
         next();
