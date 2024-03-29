@@ -14,6 +14,7 @@ const JWT_SECRET = "aishwarya@reddy";
 const expiresIn='1h';
 const multer=require('multer');
 
+
 const startServer = async () => {
   try {
 
@@ -98,20 +99,26 @@ const startServer = async () => {
     }
   });
 
-  const upload = multer({ dest: 'uploads/' });
+  const upload = multer({ storage: multer.memoryStorage() });
 
     app.get('/api/movies',verifyToken,async (req,res)=>{
       const allmovies=await Movie.find({},{_id:0,__v:0,createdAt:0,updatedAt:0});
       res.json(allmovies);
     });
-
-    app.post("/api/movies/upload", [verifyToken,requireRole("director"),upload.single('file')], async (req, res) => {
+    app.use(bodyParser.raw({ type: 'application/octet-stream', limit: '50mb' }));
+    app.post("/api/movies/upload", [verifyToken,requireRole("director"),upload.any()], async (req, res) => {
       try {
-        const jsonFile = req.file;
-        if (!jsonFile || jsonFile.mimetype !== 'application/json') {
+        console.log(req.headers['content-type']);
+
+        //console.log(req.body);
+        const jsonFile = req.body;
+        if (!jsonFile ) {
           return res.status(400).json({ message: 'Please upload a JSON file' });
         }
-        const data = await fs.promises.readFile(jsonFile.path, 'utf8');
+        //console.log(jsonFile.path);
+        //const data = await fs.promises.readFile(jsonFile.path, 'utf8');
+        const data=req.body.toString('utf8')
+        console.log(data);
         const moviesData = JSON.parse(data);
         const newmovies = moviesData.movies;
         //console.log(newmovies);
@@ -157,7 +164,7 @@ const startServer = async () => {
 
 
 
-  app.get("/api/actors/download",[verifyToken],async (req,res)=>{
+  app.get("/api/actors/download",[verifyToken,requireRole(['director','actor'])],async (req,res)=>{
     try{
        const actors=await Actor.find();
        if(!actors || actors.length==0){
