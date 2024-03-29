@@ -135,6 +135,7 @@ const startServer = async () => {
           return res.status(409).json({message: 'All movies already exist in the database.'});
         }
     
+
         await Movie.insertMany(moviesToAdd);
         res.status(200).json({ message: 'Movies added successfully' });
       } catch (err) {
