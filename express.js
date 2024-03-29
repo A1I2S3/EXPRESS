@@ -15,6 +15,12 @@ const expiresIn='1h';
 const multer=require('multer');
 
 
+const { graphqlHTTP } = require("express-graphql");
+const { ApolloServer, gql } = require('apollo-server-express');
+const typeDefs = require("./schemas/schema.js");
+const resolvers = require("./schemas/resolver.js");
+
+
 const startServer = async () => {
   try {
 
@@ -26,6 +32,7 @@ const startServer = async () => {
 // Create user endpoint
   app.post('/api/users/create', async (req, res) => {
       try {
+        console.log("hello")
         const { username, password, role } = req.body;
     
         // Check if user already exists
@@ -89,6 +96,7 @@ const startServer = async () => {
   app.put('/api/users/:userId/update', verifyToken, async (req, res) => {
     try {
       const { userId } = req.params;
+      
       const { username, password, role } = req.body;
       const hashedPassword = await bcrypt.hash(password, 10); // Using 10 salt rounds
       await User.findByIdAndUpdate(userId, { username, password: hashedPassword, role });
@@ -219,13 +227,26 @@ const startServer = async () => {
      console.error("error in fetching and downloading actor")
     }
 })
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({ req }) => {
+    
+    
+    
+    return req}})
+  
+  await server.start()
+   
+  server.applyMiddleware({ app });
+   
+ 
+  
+  
 
-  
-  
-app.listen(PORT, () => {
+ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-
     
   } catch (err) {
     console.log('Error connecting to mongodb', err);
