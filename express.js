@@ -32,7 +32,7 @@ const startServer = async () => {
 // Create user endpoint
   app.post('/api/users/create', async (req, res) => {
       try {
-        console.log("hello")
+        //console.log("hello")
         const { username, password, role } = req.body;
     
         // Check if user already exists
