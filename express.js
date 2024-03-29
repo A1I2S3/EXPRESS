@@ -13,6 +13,7 @@ const PORT = process.env.PORT || 8080;
 const JWT_SECRET = "aishwarya@reddy"; 
 const expiresIn='1h';
 const multer=require('multer');
+const path=require('path');
 
 
 const { graphqlHTTP } = require("express-graphql");
@@ -177,9 +178,17 @@ const startServer = async () => {
         res.status(500).json({ message: 'Internal server error' });
       }
     });
+    const createDownloadsDirectory = () => {
+      const downloadsPath = path.resolve(__dirname, 'downloads');
+    
+      if (!fs.existsSync(downloadsPath)) {
+        fs.mkdirSync(downloadsPath);
+      }
+    };
 
 
   app.get("/api/movies/download",[verifyToken,requireRole('director')],async (req,res)=>{
+    createDownloadsDirectory();
        try{
           const movies=await Movie.find();
           if(!movies || movies.length==0){
@@ -205,6 +214,7 @@ const startServer = async () => {
 
 
   app.get("/api/actors/download",[verifyToken,requireRole(['director','actor'])],async (req,res)=>{
+    createDownloadsDirectory();
     try{
        const actors=await Actor.find();
        if(!actors || actors.length==0){

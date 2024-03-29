@@ -1,4 +1,4 @@
 node_modules/
 uploads/
-movies.json
-actor.json
+/movies.json
+/actor.json
