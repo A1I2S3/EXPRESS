@@ -105,7 +105,7 @@ Please fork the project at https://github.com/A1I2S3/EXPRESS.git before using it
                 }
             ]
         }
-        
+
 **Using the GraphQL endpoint**
 
 1. Authentication:
@@ -118,31 +118,29 @@ Please fork the project at https://github.com/A1I2S3/EXPRESS.git before using it
 - Construct your GraphQL query using the GraphQL query language.
 - Use your GraphQL client (Apollo) to send the query to the GraphQL endpoint.
 - Ensure the query is properly formatted and includes all required fields.
-> Example:
-    ```graphql
-    query {
-  getMovies {
-    title
-    year
-    rating
-  }
-}
-```
+    > Example:
+        ```graphql
+        query {
+        getMovies {
+            title
+            year
+            rating
+        }
+    }
 3. Send Mutations :
 
 - Construct your GraphQL mutation using the GraphQL query language.
 - Use your GraphQL client to send the mutation to the GraphQL endpoint.
 - Ensure the mutation is properly formatted and includes all required input fields.
-> Example:
-    ```graphql
-    mutation {
-  createUser(input: {username: "John", password: "password", role: "actor"}) {
-    id
-    name
-    email
-  }
-}
-    ```
+    > Example:
+        ```graphql
+        mutation {
+        createUser(input: {username: "John", password: "password", role: "actor"}) {
+            id
+            name
+            email
+        }
+    }
 
 **GraphQL Schema**
 
