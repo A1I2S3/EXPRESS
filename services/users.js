@@ -12,16 +12,13 @@ routes.post('/api/users/create', async (req, res) => {
     try {
       const { username, password, role } = req.body;
   
-      // Check if user already exists
       const existingUser = await User.findOne({ username });
       if (existingUser) {
         return res.status(400).json({ error: 'User already exists' });
       }
   
-      // Hash password
       const hashedPassword = await bcrypt.hash(password, 10); // Using 10 salt rounds
-  
-      // Create user
+
       const user = new User({
         username,
         password:hashedPassword,
@@ -35,8 +32,6 @@ routes.post('/api/users/create', async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     }
   });
-
-// Login endpoint
 routes.post('/api/users/login', async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -48,7 +43,6 @@ routes.post('/api/users/login', async (req, res) => {
     if (!validPassword) {
       return res.status(401).json({ error: 'Invalid password' });
     }
-    // Generate JWT token
     const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET,{expiresIn});
     res.json({ token });
   } catch (error) {
@@ -56,8 +50,6 @@ routes.post('/api/users/login', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
-// Delete user endpoint
 routes.delete('/api/users/:userId/delete', verifyToken, async (req, res) => {
   try {
     const { userId } = req.params;
@@ -68,8 +60,6 @@ routes.delete('/api/users/:userId/delete', verifyToken, async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
-// Update user endpoint
 routes.put('/api/users/:userId/update', verifyToken, async (req, res) => {
   try {
     const { userId } = req.params;
