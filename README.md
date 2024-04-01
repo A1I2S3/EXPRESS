@@ -1,12 +1,12 @@
 # Movie API
 
-A simple Express.js API for managing movies and actors.
+The Movie API is a simple Express.js API with a graphql endpoint for managing movies and actors. It features user authentication and authorization based on roles (director and actor), allowing users to list, upload, and download movies and actors in json format as per the permission of roles.
 
 ## Features
 
 - **Authentication and Authorization**: User authentication and authorization based on roles (director and actor).
 - **User Management**: CRUD operations for users with login and proper error handling.
-- :**Movie management**: Upload and download movies data as JSON files.
+- **Movie management**: Upload and download movies data as JSON files.
 - **Actor management**: Upload and download actors data as JSON files.
 
 ## Tech Stack
@@ -20,10 +20,15 @@ A simple Express.js API for managing movies and actors.
 
 ## Setup
 
+**Fork the Project**
+
+Please fork the project at https://github.com/A1I2S3/EXPRESS.git before using it to ensure you can pull updates, submit issues, and contribute as needed.
+
+
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/A1I2S3/EXPRESS.git
+    git clone https://github.com/your_repo/EXPRESS.git
     cd EXPRESS
 
 2.  Install dependencies:
