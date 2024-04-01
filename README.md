@@ -50,7 +50,7 @@ A simple Express.js API for managing movies and actors.
 ## Usage
 
 - Make sure the server is running.
-- Access the endpoints using tools like Postman at http://localhost:<PORT>.
+- Access the endpoints using tools like Postman at http://localhost:your_port_number.
 - Refer API Documentation for a detailed usage instructions.
 
 ## API Documentation
