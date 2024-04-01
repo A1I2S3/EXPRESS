@@ -56,6 +56,7 @@ Please fork the project at https://github.com/A1I2S3/EXPRESS.git before using it
 
 - Make sure the server is running.
 - Access the endpoints using tools like Postman at http://localhost:your_port_number.
+- Access the graphql endpoint on http://localhost:your_port_number/graphql
 - Refer API Documentation for a detailed usage instructions.
 
 ## API Documentation
@@ -104,7 +105,44 @@ Please fork the project at https://github.com/A1I2S3/EXPRESS.git before using it
                 }
             ]
         }
+        
+**Using the GraphQL endpoint**
 
+1. Authentication:
+
+- Obtain an authorization token through authentication system(login).
+- Include the token in the Authorization header of your requests to authenticate with the GraphQL endpoint.
+
+2. Send Queries:
+
+- Construct your GraphQL query using the GraphQL query language.
+- Use your GraphQL client (Apollo) to send the query to the GraphQL endpoint.
+- Ensure the query is properly formatted and includes all required fields.
+> Example:
+    ```graphql
+    query {
+  getMovies {
+    title
+    year
+    rating
+  }
+}
+```
+3. Send Mutations :
+
+- Construct your GraphQL mutation using the GraphQL query language.
+- Use your GraphQL client to send the mutation to the GraphQL endpoint.
+- Ensure the mutation is properly formatted and includes all required input fields.
+> Example:
+    ```graphql
+    mutation {
+  createUser(input: {username: "John", password: "password", role: "actor"}) {
+    id
+    name
+    email
+  }
+}
+    ```
 
 **GraphQL Schema**
 
