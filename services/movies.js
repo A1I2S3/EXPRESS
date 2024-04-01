@@ -1,14 +1,14 @@
 const express=require('express');
 const routes=express.Router();
-const JWT_SECRET = "aishwarya@reddy"; 
-const expiresIn='1h';
 const Movie=require('../models/movie.js');
 const { requireRole } = require('../middleware/verifyrole.js');
 const { verifyToken }= require('../middleware/verifytoken.js');
 const Actor=require('../models/actor.js')
 const multer=require('multer');
+const path=require('path');
+const fs=require('fs');
 
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ storage : multer.memoryStorage()});
 
 routes.get('/api/movies',verifyToken,async (req,res)=>{
     const allmovies=await Movie.find({},{_id:0,__v:0,createdAt:0,updatedAt:0});

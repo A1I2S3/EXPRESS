@@ -1,8 +1,6 @@
 const User = require("../models/user.js");
 const Movie = require("../models/movie.js");
 const jwt = require('jsonwebtoken');
-const {requireRole}=require("../middleware/verifyrole")
-const axios = require('axios');
 const bcrypt = require('bcryptjs');
 
 const JWT_SECRET = "aishwarya@reddy"; 
@@ -26,7 +24,7 @@ const verifyToken = (req, res, next) => {
 };
 const resolvers = {
   Query:{ 
-  getMovie:  async (_,{},req) => {
+  getMovies:  async (_,{},req) => {
     try {
       
       // console.log(token)

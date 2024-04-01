@@ -2,3 +2,4 @@ node_modules/
 uploads/
 /movies.json
 /actor.json
+.env

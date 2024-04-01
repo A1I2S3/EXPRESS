@@ -13,7 +13,7 @@ const schema = buildSchema(`
   }
 
   type Query {
-    getMovie: [movie]
+    getMovies: [movie]
     
     
   }
