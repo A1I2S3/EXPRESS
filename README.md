@@ -119,7 +119,7 @@ Please fork the project at https://github.com/A1I2S3/EXPRESS.git before using it
 - Use your GraphQL client (Apollo) to send the query to the GraphQL endpoint.
 - Ensure the query is properly formatted and includes all required fields.
     > Example:
-        ```graphql
+    ```graphql
         query {
         getMovies {
             title
@@ -133,7 +133,7 @@ Please fork the project at https://github.com/A1I2S3/EXPRESS.git before using it
 - Use your GraphQL client to send the mutation to the GraphQL endpoint.
 - Ensure the mutation is properly formatted and includes all required input fields.
     > Example:
-        ```graphql
+    ```graphql
         mutation {
         createUser(input: {username: "John", password: "password", role: "actor"}) {
             id
