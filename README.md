@@ -20,10 +20,15 @@ A simple Express.js API for managing movies and actors.
 
 ## Setup
 
+**Fork the Project**
+
+Please fork the project at https://github.com/A1I2S3/EXPRESS.git before using it to ensure you can pull updates, submit issues, and contribute as needed.
+
+
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/A1I2S3/EXPRESS.git
+    git clone https://github.com/your_repo/EXPRESS.git
     cd EXPRESS
 
 2.  Install dependencies:
