@@ -14,11 +14,12 @@ const schema = buildSchema(`
 
   type Query {
     getMovie: [movie]
-    login(username: String!,password: String!):String!
+    
     
   }
 
   type Mutation {
+    login(username: String!,password: String!):String!
     createUser(username: String!, password: String!,role: String!): String
     updateUser(_id: ID!, username: String, password: String,role: String): String
     deleteUser(_id: ID!): String

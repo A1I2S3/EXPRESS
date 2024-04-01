@@ -41,7 +41,10 @@ const resolvers = {
     } catch (err) {
       throw new Error("Error retrieving movie");
     }
-  },
+  }
+  
+},
+Mutation :{ 
   login: async(_,{username,password})=>{
 
     try {
@@ -53,7 +56,7 @@ const resolvers = {
       if (!user) {
         return  'User not found'
       }
-      console.log(user)
+      //console.log(user)
      
      
       
@@ -69,10 +72,7 @@ const resolvers = {
     }catch (err) {
       throw new Error("Error retrieving user");
     }
-  }
-  
-},
-Mutation :{ 
+  },
   createUser: async (_,{ username, password,role }) => {
     try {
      
@@ -148,19 +148,6 @@ Mutation :{
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 };
 
 module.exports = resolvers;

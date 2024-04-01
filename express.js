@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 8000;
 const JWT_SECRET = "aishwarya@reddy"; 
 const expiresIn='1h';
 const multer=require('multer');
-
+const path=require('path');
 
 const { graphqlHTTP } = require("express-graphql");
 const { ApolloServer, gql } = require('apollo-server-express');
@@ -32,22 +32,16 @@ const startServer = async () => {
     app.use(bodyParser.json());
     app.use(users);
     app.use(movies);
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: ({ req }) => {
-    
-    
-    
     return req}})
   
   await server.start()
    
   server.applyMiddleware({ app });
-   
- 
-  
-  
 
  app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
