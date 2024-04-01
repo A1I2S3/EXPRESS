@@ -65,7 +65,7 @@ routes.get('/api/movies',verifyToken,async (req,res)=>{
     }
   });
   const createDownloadsDirectory = () => {
-    const downloadsPath = path.resolve(__dirname, 'downloads');
+    const downloadsPath = path.resolve(path.dirname(__dirname), 'downloads');
   
     if (!fs.existsSync(downloadsPath)) {
       fs.mkdirSync(downloadsPath);
