@@ -54,7 +54,6 @@ Mutation :{
       if (!user) {
         return  'User not found'
       }
-      //console.log(user)
      
      
       
@@ -63,7 +62,6 @@ Mutation :{
       if (!validPassword) {
         return 'Invalid password' 
       }
-      // Generate JWT token
       const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET);
       return token 
        

@@ -32,7 +32,6 @@ routes.get('/api/movies',verifyToken,async (req,res)=>{
       // }
   
       const data = jsonFile.buffer.toString('utf8');
-      //console.log(data);
       const moviesData = JSON.parse(data);
       const newmovies = moviesData.movies;
   
@@ -62,10 +61,8 @@ routes.get('/api/movies',verifyToken,async (req,res)=>{
       const data=jsonFile.buffer.toString('utf8')
       const actorsData = JSON.parse(data);
       const newactors = actorsData.actors;
-      //console.log(newmovies);
       const existingName = await Actor.distinct("name");
 
-      // Filter out new movies whose titles already exist in the database
       const actorsToAdd = newactors.filter(actor => !existingName.includes(actor.name));
 
       if (actorsToAdd.length === 0) {
