@@ -88,7 +88,13 @@ routes.get('/api/movies',verifyToken,async (req,res)=>{
         }
 
         const filename='./downloads/movies.json';
-        fs.writeFileSync(filename, JSON.stringify(data, null, 2));
+        fs.writeFileSync(filename, JSON.stringify(data, null, 2),(err)=>{
+          if(err){
+            console.log("error in writing file");
+          }else{
+            console.log("file has been saved sucessfully");
+          }
+        });
         console.log(`Movies and actors data saved to ${filename}`);
         res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
         res.setHeader('Content-Type', 'application/json');
@@ -116,7 +122,13 @@ routes.get("/api/actors/download",[verifyToken,requireRole(['director','actor'])
      }
 
      const filename='./downloads/actor.json';
-     fs.writeFileSync(filename, JSON.stringify(data, null, 2));
+     fs.writeFile(filename, JSON.stringify(data, null, 2),(err)=>{
+          if(err){
+            console.log("error in writing file",err);
+          }else{
+            console.log("file has been saved sucessfully");
+          }
+     });
      console.log(` actors data saved to ${filename}`);
      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
      res.setHeader('Content-Type', 'application/json');
