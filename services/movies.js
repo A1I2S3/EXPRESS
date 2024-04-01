@@ -65,7 +65,7 @@ routes.get('/api/movies',verifyToken,async (req,res)=>{
     }
   });
   const createDownloadsDirectory = () => {
-    const downloadsPath = path.resolve(path.dirname(__dirname), 'downloads');
+    const downloadsPath = path.resolve(__dirname, 'downloads');
   
     if (!fs.existsSync(downloadsPath)) {
       fs.mkdirSync(downloadsPath);
@@ -75,7 +75,7 @@ routes.get('/api/movies',verifyToken,async (req,res)=>{
 
 
   routes.get("/api/movies/download",[verifyToken,requireRole('director')],async (req,res)=>{
-    createDownloadsDirectory();
+  createDownloadsDirectory();
      try{
         const movies=await Movie.find();
         if(!movies || movies.length==0){
@@ -94,7 +94,7 @@ routes.get('/api/movies',verifyToken,async (req,res)=>{
         const file = fs.createReadStream(filename);
         file.pipe(res);
      }catch(err){
-      console.error("error in fetching and downloading movies",err);
+      console.error("error in fetching and downloading movies")
      }
 })
 
@@ -117,10 +117,11 @@ routes.get("/api/actors/download",[verifyToken,requireRole(['director','actor'])
      fs.writeFileSync(filename, JSON.stringify(data, null, 2));
      console.log(` actors data saved to ${filename}`);
      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+     res.setHeader('Content-Type', 'application/json');
      const file = fs.createReadStream(filename);
      file.pipe(res);
   }catch(err){
-   console.error("error in fetching and downloading actor",err);
+   console.error("error in fetching and downloading actor")
   }
 })
 
