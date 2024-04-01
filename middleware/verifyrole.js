@@ -1,5 +1,3 @@
-// middleware/auth.js
-
 const requireRole = (role) => {
     return (req, res, next) => {
         console.log("User Role :",req.userRole);

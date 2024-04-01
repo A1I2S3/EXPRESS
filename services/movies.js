@@ -15,22 +15,12 @@ routes.get('/api/movies',verifyToken,async (req,res)=>{
     res.json(allmovies);
   });
 
-  //app.use(bodyParser.raw({ type: 'multipart/form-data', limit: '50mb' }));
-
   routes.post("/api/movies/upload", [verifyToken,requireRole("director"),upload.single('file')], async (req, res) => {
     try {
-      //console.log(req.headers['content-type']);
-  
       const jsonFile = req.file;
-     // console.log(jsonFile.buffer);
       if (!jsonFile) {
         return res.status(400).json({ message: 'Please upload a JSON file' });
       }
-  
-      // if (jsonFile.mimetype !== 'application/json') {
-      //   return res.status(400).json({ message: 'Please upload a valid JSON file' });
-      // }
-  
       const data = jsonFile.buffer.toString('utf8');
       const moviesData = JSON.parse(data);
       const newmovies = moviesData.movies;
@@ -43,7 +33,6 @@ routes.get('/api/movies',verifyToken,async (req,res)=>{
         return res.status(409).json({message: 'All movies already exist in the database.'});
       }
   
-
       await Movie.insertMany(moviesToAdd);
       res.status(200).json({ message: 'Movies added successfully' });
     } catch (err) {

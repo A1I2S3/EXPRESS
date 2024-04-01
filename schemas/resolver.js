@@ -24,16 +24,11 @@ const resolvers = {
   Query:{ 
   getMovies:  async (_,{},req) => {
     try {
-      
-      // console.log(token)
-      // const response = await axios.get('http://localhost:8080/api/movies',{ headers: { authorization: token} });  
-      // return response.data
+
       verifyToken(req)
       const allmovies=await Movie.find({},{_id:0,__v:0,createdAt:0,updatedAt:0});
       return allmovies
-      
-      
-
+    
     } catch (err) {
       throw new Error("Error retrieving movie");
     }
@@ -44,16 +39,11 @@ Mutation :{
   login: async(_,{username,password})=>{
 
     try {
-      // const response = await axios.post('http://localhost:8080/api/users/login',{username: username, password: password});
-        
-      // return response.data
-      
+    
       const user = await User.findOne({ username });
       if (!user) {
         return  'User not found'
       }
-     
-     
       
       const validPassword = await bcrypt.compare(password, user.password);
       
@@ -70,13 +60,6 @@ Mutation :{
   createUser: async (_,{ username, password,role }) => {
     try {
      
-  
-      // const response = await axios.post('http://localhost:8080/api/users/create',{username: username, password: password, role: role});
-      // return "success"
-
-    
-        
-    
         // Check if user already exists
         const existingUser = await User.findOne({ username });
         if (existingUser) {
@@ -94,44 +77,24 @@ Mutation :{
         });
          await user.save();
          return "succesfully created"
-
-  
-      
     } catch (error) {
       throw new Error( 'Internal server error' );
     }
   },
 
-
   updateUser: async (_,{ _id, username, password ,role },req) => {
     try {
-      // const token=context.token
-      
-     
-
-      // const response = await axios.put(`http://localhost:8080/api/users/${_id}/update`,{username: username, password: password, role: role},{ headers: { authorization: token} });
-        
-      // return "success updated"
       verifyToken(req)
-
       const  userId  = _id
-      
-     
       const hashedPassword = await bcrypt.hash(password, 10); // Using 10 salt rounds
       await User.findByIdAndUpdate(userId, { username, password: hashedPassword, role });
       return 'User updated successfully' 
-
-      
     } catch (err) {
       throw new Error("Error updating user");
     }
   },
   deleteUser: async (_,{ _id },req) => {
     try {
-      // const token=context.token
-      // const response = await axios.delete(`http://localhost:8080/api/users/${_id}/delete`,{ headers: { authorization: token} });
-        
-      // return "successfully deleted"
       verifyToken(req)
       const userId  = _id;
       await User.findByIdAndDelete(userId);
