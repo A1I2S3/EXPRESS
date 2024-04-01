@@ -22,7 +22,7 @@ routes.get('/api/movies',verifyToken,async (req,res)=>{
       //console.log(req.headers['content-type']);
   
       const jsonFile = req.file;
-      //console.log(jsonFile.buffer);
+     // console.log(jsonFile.buffer);
       if (!jsonFile) {
         return res.status(400).json({ message: 'Please upload a JSON file' });
       }

@@ -4,8 +4,10 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const expiresIn='1h';
 const User=require('../models/user.js');
 const { verifyToken }= require('../middleware/verifytoken.js');
-const bcrypt=require( 'bcryptjs');
+const fs=require('fs');
+const bcrypt=require('bcryptjs');
 const jwt=require('jsonwebtoken');
+
 routes.post('/api/users/create', async (req, res) => {
     try {
       const { username, password, role } = req.body;
