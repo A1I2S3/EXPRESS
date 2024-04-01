@@ -3,3 +3,4 @@ uploads/
 /movies.json
 /actor.json
 .env
+downloads/
