@@ -74,10 +74,11 @@ Please fork the project at https://github.com/A1I2S3/EXPRESS.git before using it
 | `POST`   | `/api/actors/upload`         | Upload actors data as a JSON file.                |
 | `GET`    | `/api/actors/download`       | Download actors data as a JSON file.              |
 
-    - Note that all routes are protected, you need to send an Authorization header with a valid JWT token using tools like Postman.
-    - To upload a JSON file , you need to send it through form-data under key "file" using a tool like Postman.
-    - Please follow the below example format to upload the movie and actor files. 
-    > Example movies upload file :
+- Note that all routes are protected, you need to send an Authorization header with a valid JWT token using tools like Postman.
+- To upload a JSON file , you need to send it through form-data under key "file" using a tool like Postman.
+- Please follow the below example format to upload the movie and actor files. 
+    - Example movies upload file :
+        >
         ```json
         {
         "movies":[
@@ -86,7 +87,8 @@ Please fork the project at https://github.com/A1I2S3/EXPRESS.git before using it
             {"title":"The Godfather 7", "year" : 1980, "rating":9.3}
             ]
         }
-    > Example actors upload file :
+    - Example actors upload file :
+        >
         ```json
         {
             "actors":[
