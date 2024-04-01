@@ -2,9 +2,7 @@ const User = require("../models/user.js");
 const Movie = require("../models/movie.js");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-
-const JWT_SECRET = "aishwarya@reddy"; 
-
+const JWT_SECRET=process.env.JWT_SECRET
 const verifyToken = (req, res, next) => {
 
   const token =req.headers.authorization.split(" ")[1] ||  req.headers.authorization ;
@@ -62,7 +60,7 @@ Mutation :{
       if (!validPassword) {
         return 'Invalid password' 
       }
-      const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET);
+      const token = jwt.sign({ userId: user._id, role: user.role },JWT_SECRET);
       return token 
        
     }catch (err) {
