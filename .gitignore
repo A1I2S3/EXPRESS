@@ -4,3 +4,4 @@ uploads/
 /actor.json
 .env
 downloads/
+package-lock.json
