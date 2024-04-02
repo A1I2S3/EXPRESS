@@ -88,7 +88,7 @@ routes.get('/api/movies',verifyToken,async (req,res)=>{
         }
 
         const filename='./downloads/movies.json';
-        fs.writeFileSync(filename, JSON.stringify(data, null, 2),(err)=>{
+        fs.writeFile(filename, JSON.stringify(data, null, 2),(err)=>{
           if(err){
             console.log("error in writing file");
           }else{
