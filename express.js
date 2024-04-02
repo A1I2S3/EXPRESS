@@ -9,7 +9,7 @@ const { ApolloServer } = require('apollo-server-express');
 const typeDefs = require("./schemas/schema.js");
 const resolvers = require("./schemas/resolver.js");
 const apiSpec = path.join(__dirname, 'openapi.json');
-const openapispec = JSON.parse(fs.readFileSync(apiSpec, 'utf8'));
+const openapispec = JSON.parse(fs.readFileSync(apiSpec, 'utf8'));//read file and content return as a string
 const swaggerUi = require('swagger-ui-express');
 const movieRoutes = require('./routes/movieRoutes.js');
 const actorRoutes = require('./routes/actorRoutes.js');
@@ -25,6 +25,7 @@ const startServer = async () => {
     app.use('/api/users', userRoutes);
     app.use('/api/movies', movieRoutes);
     app.use('/api/actors', actorRoutes);
+    //function provided by Swagger UI Express. It sets up Swagger UI to display your API documentation
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapispec));
 
     const server = new ApolloServer({

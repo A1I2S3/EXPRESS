@@ -56,7 +56,9 @@ exports.downloadActors = async (req, res) => {
     console.log(` actors data saved to ${filename}`);
     res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
     res.setHeader('Content-Type', 'application/json');
+    //This stream can be used to read data from the specified file asynchronously.
     const file = fs.createReadStream(filename);
+    //This method in Node.js is used to take the output from one stream and feed it into another stream.
     file.pipe(res);
   } catch (err) {
     console.error("error in fetching and downloading actors")
