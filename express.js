@@ -8,13 +8,12 @@ const path=require('path');
 const { ApolloServer } = require('apollo-server-express');
 const typeDefs = require("./schemas/schema.js");
 const resolvers = require("./schemas/resolver.js");
-const users=require('./services/users.js');
-const movies=require('./services/movies.js');
-const OpenApiValidator = require('express-openapi-validator');
 const apiSpec = path.join(__dirname,'openapi.json');
 const openapispec= JSON.parse(fs.readFileSync(apiSpec,'utf8'));
 const swaggerUi = require('swagger-ui-express');
-
+const movieRoutes=require('./routes/movieRoutes.js');
+const actorRoutes=require('./routes/actorRoutes.js');
+const userRoutes=require('./routes/userRoutes.js');
 const startServer = async () => {
   try {
 
@@ -22,31 +21,10 @@ const startServer = async () => {
     console.log('Connected to Mongodb');
     const app = express();
 
-    
-
     app.use(bodyParser.json());
-    app.use(users);
-    app.use(movies);
-
-    // app.use(OpenApiValidator.middleware({
-    //   apiSpec: apiSpec,
-    //   validateRequests: true,
-    //   validateResponses: true,
-    //   validateSecurity: true,
-    //   operationHandlers: {
-    //     getUser: (req, res, next) => {
-    //       const { userId } = req.params;
-    //       const user = users.find(user => user.id === userId);
-    //       if (user) {
-    //         res.json(user);
-    //       } else {
-    //         res.status(404).json({ message: 'User not found' });
-    //       }
-    //       next();
-    //     },
-    //   },
-    // }));
-
+    app.use('/api/users',userRoutes);
+    app.use('/api/movies',movieRoutes);
+    app.use('/api/actors',actorRoutes);
     app.use('/api-docs',swaggerUi.serve, swaggerUi.setup(openapispec));
 
 const server = new ApolloServer({

@@ -5,8 +5,8 @@
     "version": "1.0.0",
     "description": "A simple Express.js API for managing movies and actors.",
     "contact": {
-      "name": "Your Name",
-      "email": "you@example.com"
+      "name": "Avinash R D",
+      "email": "avinash.deshpande@techcanopy.com"
     }
   },
   "paths": {
@@ -295,20 +295,6 @@
             "type": "integer"
           },
           "gender": {
-            "type": "string"
-          }
-        }
-      },
-      "Director": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "age": {
-            "type": "integer"
-          },
-          "role": {
             "type": "string"
           }
         }
