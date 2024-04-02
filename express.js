@@ -21,31 +21,10 @@ const startServer = async () => {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log('Connected to Mongodb');
     const app = express();
-
     
-
     app.use(bodyParser.json());
     app.use(users);
     app.use(movies);
-
-    // app.use(OpenApiValidator.middleware({
-    //   apiSpec: apiSpec,
-    //   validateRequests: true,
-    //   validateResponses: true,
-    //   validateSecurity: true,
-    //   operationHandlers: {
-    //     getUser: (req, res, next) => {
-    //       const { userId } = req.params;
-    //       const user = users.find(user => user.id === userId);
-    //       if (user) {
-    //         res.json(user);
-    //       } else {
-    //         res.status(404).json({ message: 'User not found' });
-    //       }
-    //       next();
-    //     },
-    //   },
-    // }));
 
     app.use('/api-docs',swaggerUi.serve, swaggerUi.setup(openapispec));
 
