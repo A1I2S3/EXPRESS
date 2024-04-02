@@ -14,8 +14,6 @@ const schema = buildSchema(`
 
   type Query {
     getMovies: [movie]
-    
-    
   }
 
   type Mutation {
@@ -23,9 +21,6 @@ const schema = buildSchema(`
     createUser(username: String!, password: String!,role: String!): String
     updateUser(_id: ID!, username: String, password: String,role: String): String
     deleteUser(_id: ID!): String
-
-
-     
   }
 `);
 
