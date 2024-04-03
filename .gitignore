@@ -7,3 +7,4 @@ downloads/
 package-lock.json
 docker-compose.yml
 Dockerfile
+.dockerignore
