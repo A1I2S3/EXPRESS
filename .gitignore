@@ -5,3 +5,5 @@ uploads/
 .env
 downloads/
 package-lock.json
+docker-compose.yml
+Dockerfile
