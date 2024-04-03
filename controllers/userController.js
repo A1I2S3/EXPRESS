@@ -6,7 +6,7 @@ exports.createUser = async (req, res) => {
         if (!result) throw new Error("Error while creating user");
         res.status(200).json(result);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(error.code).json({ error: error.message });
     }
 }
 
@@ -15,7 +15,7 @@ exports.loginUser = async (req, res) => {
         const { token } = await userService.loginUser(req);
         res.status(200).json({ token });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(error.code).json({ error: error.message });
     }
 }
 
@@ -25,7 +25,7 @@ exports.deleteUser = async (req, res) => {
         if (!result) throw new Error("Error while deleting user");
         res.status(200).json(result);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(error.code).json({ error: error.message });
     }
 }
 
@@ -35,6 +35,6 @@ exports.updateUser = async (req, res) => {
         if (!result) throw new Error("Error while updating user");
         res.status(200).json(result);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(error.code).json({ error: error.message });
     }
 }

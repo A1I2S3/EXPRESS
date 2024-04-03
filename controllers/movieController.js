@@ -5,7 +5,7 @@ exports.getAllMovies = async (req, res) => {
         const movies = await movieService.getAllMovies();
         res.json(movies);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(error.code).json({ error: error.message });
     }
 }
 
@@ -15,7 +15,7 @@ exports.uploadMovies = async (req, res) => {
         if (!result) throw new Error("Error while uploading the file");
         res.status(200).json(result);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(error.code).json({ error: error.message });
     }
 }
 
@@ -23,6 +23,6 @@ exports.downloadMovies = async (req, res) => {
     try {
         await movieService.downloadMovies(req, res);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(error.code).json({ error: error.message });
     }
 }

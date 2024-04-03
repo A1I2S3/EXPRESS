@@ -81,6 +81,11 @@
         "tags": [
           "Users"
         ],
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
         "parameters": [
           {
             "name": "userId",
@@ -103,6 +108,11 @@
         "summary": "Update a user by its ID",
         "tags": [
           "Users"
+        ],
+        "security": [
+          {
+            "JWT": []
+          }
         ],
         "parameters": [
           {

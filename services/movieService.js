@@ -4,6 +4,11 @@ const fs = require('fs');
 exports.getAllMovies = async () => {
   try {
     const allmovies = await Movie.find({}, { _id: 0, __v: 0, createdAt: 0, updatedAt: 0 });
+    if(allmovies.length===0){
+      const error= new Error("No movies found");
+      error.code=404;
+      throw error;
+    }
     return allmovies;
   } catch (error) {
     throw error;
@@ -25,7 +30,9 @@ exports.uploadMovies = async (req) => {
     const moviesToAdd = newmovies.filter(movie => !existingTitles.includes(movie.title));
 
     if (moviesToAdd.length === 0) {
-      throw new Error('All movies already exist in the database.');
+      const error= new Error('All movies already exist in the database.');
+      error.code=409;
+      throw error;
     }
 
     await Movie.insertMany(moviesToAdd);
@@ -47,7 +54,9 @@ exports.downloadMovies = async (req, res) => {
     createDownloadsDirectory();
     const movies = await Movie.find();
     if (!movies || movies.length == 0) {
-      throw new Error("No movies found");
+      const error=new Error("No movies found");
+      error.code=404;
+      throw error;
     }
     const data = {
       movies: movies.map(m => m.toJSON()),

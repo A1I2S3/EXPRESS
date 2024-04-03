@@ -6,7 +6,9 @@ exports.uploadActors = async (req) => {
   try {
     const jsonFile = req.file;
     if (!jsonFile) {
-      throw new Error("Please Upload a JSON file");
+      const error= new Error("Please Upload a JSON file");
+      error.code=400;
+      throw error;
     }
     const data = jsonFile.buffer.toString('utf8')
     const actorsData = JSON.parse(data);
@@ -15,7 +17,9 @@ exports.uploadActors = async (req) => {
 
     const actorsToAdd = newactors.filter(actor => !existingName.includes(actor.name));
     if (actorsToAdd.length === 0) {
-      throw new Error('All actors already exist in the database.');
+      const error= new Error('All actors already exist in the database.');
+      error.code=409;
+      throw error;
     }
 
     await Actor.insertMany(actorsToAdd);
@@ -37,8 +41,9 @@ exports.downloadActors = async (req, res) => {
     createDownloadsDirectory();
     const actors = await Actor.find();
     if (!actors || actors.length == 0) {
-      res.status(404).send("no actor data found");
-      return;
+      const error=new Error("no actor data found");
+      error.code=404;
+      throw error;
     }
 
     const data = {
